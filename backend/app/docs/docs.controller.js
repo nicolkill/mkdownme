@@ -5,7 +5,7 @@ const {
 } = require('../../config/errors');
 
 const getAll = async (req, res) => {
-  const docs = await Docs.find({});
+  const docs = await Docs.find({}, '_id name updatedAt').sort({ updatedAt: -1 });
   res.json(docs);
 };
 
@@ -28,8 +28,31 @@ const create = async (req, res) => {
   res.json(doc)
 };
 
+const update = async (req, res) => {
+  const data = req.body;
+
+  data.name = data.content.split('\n')[0]
+    .replace(/#/g, '')
+    .replace(/\*/g, '')
+    .replace(/_/g, '')
+    .replace(/-/g, '')
+    .substring(0, 8)
+    .trim();
+
+  const doc = await Docs.findByIdAndUpdate(
+    req.params.id,
+    data,
+    {new: true},
+  );
+  if (!doc) {
+    throw new NotFoundError();
+  }
+  res.json(doc)
+};
+
 module.exports = {
   get,
   getAll,
   create,
+  update,
 };

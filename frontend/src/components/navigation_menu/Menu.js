@@ -9,9 +9,9 @@ const timezone = moment().format("Z");
 
 class Menu extends React.Component {
 d
-  handleClick = (item, event) => {
+  handleClick = (itemId, event) => {
     event.preventDefault();
-    this.props.onElementClicked(item._id);
+    this.props.onElementClicked(itemId);
   };
 
   render() {
@@ -28,7 +28,7 @@ d
           </li>
           { this.props.items.map((item, i) => (
             <li key={i}>
-              <a href="#!" onClick={ this.handleClick.bind(this, item) }>
+              <a href="#!" onClick={ this.handleClick.bind(this, item._id) }>
                 <b className="title">{ item.name }</b> - { moment.utc(item.updatedAt).utcOffset(timezone).fromNow() }
               </a>
             </li>
@@ -46,7 +46,7 @@ d
           <b className="title">Crear nuevo</b>
         </a>
         { this.props.items.map((item, i) => (
-          <a href="#!" className="collection-item" key={i} onClick={ this.handleClick.bind(this, item) }>
+          <a href="#!" className="collection-item" key={i} onClick={ this.handleClick.bind(this, item._id) }>
             <b className="title">{ item.name }</b>
             <p className="date">
               { moment(item.updatedAt).utcOffset(timezone).fromNow() }

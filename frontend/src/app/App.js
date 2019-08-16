@@ -16,9 +16,6 @@ class App extends React.Component {
 
     this.state = {
       docList: [],
-      selectedDoc: {
-        content: '',
-      },
     };
   }
 
@@ -50,9 +47,9 @@ class App extends React.Component {
   }
 
   onChange = (content) => {
-    this.setState({
-      selectedDoc: { content },
-    });
+    const state = this.state;
+    state.selectedDoc.content = content;
+    this.setState(state);
   };
 
   onMenuElementClicked = async (itemId) => {
@@ -66,6 +63,20 @@ class App extends React.Component {
     }
   };
 
+  onFinishTyping = async () => {
+    const selectedDoc = (await BackendApi.update(
+      this.state.selectedDoc._id,
+      this.state.selectedDoc.content,
+    )).data;
+
+    const docList = this.state.docList;
+
+    this.setState({
+      selectedDoc,
+      docList: [selectedDoc, ...(docList.filter(i => i._id !== selectedDoc._id))]
+    });
+  };
+
   render() {
     return (
       <div>
@@ -76,10 +87,11 @@ class App extends React.Component {
           </div>
           <div className="col m6 l5">
             <MobileButton/>
-            <Editor content={ this.state.selectedDoc.content } onChange={ this.onChange }/>
+            { this.state.selectedDoc &&
+            <Editor content={ this.state.selectedDoc.content } onChange={ this.onChange } onFinishTyping={this.onFinishTyping}/>}
           </div>
           <div className="col m6 l5">
-            <Preview content={ this.state.selectedDoc.content }/>
+            { this.state.selectedDoc && <Preview content={ this.state.selectedDoc.content }/> }
           </div>
         </div>
       </div>

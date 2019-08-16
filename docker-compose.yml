@@ -20,10 +20,9 @@ services:
       MONGODB_PASSWORD: mkdownme
 
       # CORS configuration
-      ACCESS_CONTROL_ALLOW_ORIGIN: http://localhost:3000
-      ACCESS_CONTROL_ALLOW_CREDENTIALS: 'true'
-      ACCESS_CONTROL_EXPOSE_HEADERS: Set-Cookie
-      ACCESS_CONTROL_ALLOW_HEADERS: Origin, X-Requested-With, Content-Type, Accept, X-Pailot-Auth
+      ACCESS_CONTROL_ALLOW_ORIGIN: "*"
+      ACCESS_CONTROL_ALLOW_METHODS: GET, POST, PUT, PATCH, DELETE
+      ACCESS_CONTROL_ALLOW_HEADERS: Origin, X-Requested-With, Content-Type, Accept
   mongo:
     image: mongo:latest
     ports:

@@ -67,15 +67,14 @@ module.exports = function () {
 
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', process.env.ACCESS_CONTROL_ALLOW_ORIGIN);
-    res.header('Access-Control-Allow-Credentials', process.env.ACCESS_CONTROL_ALLOW_CREDENTIALS);
-    res.header('Access-Control-Expose-Headers', process.env.ACCESS_CONTROL_EXPOSE_HEADERS);
     res.header('Access-Control-Allow-Headers', process.env.ACCESS_CONTROL_ALLOW_HEADERS);
+    res.header('Access-Control-Allow-Methods', process.env.ACCESS_CONTROL_ALLOW_METHODS);
     next();
   });
 
   app.use(parallel([
     bodyParser.json({ limit: '50mb' }),
-    bodyParser.urlencoded({ limit: '50mb', extended: true }),
+    bodyParser.urlencoded({ limit: '50mb', extended: false }),
   ]));
 
   const router = Router();
