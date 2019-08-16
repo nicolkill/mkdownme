@@ -24,3 +24,7 @@ p.date {
     border-top: unset;
     white-space: pre-wrap;
 }
+
+.result {
+    overflow: scroll;
+}
