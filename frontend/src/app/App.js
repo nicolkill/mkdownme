@@ -1,14 +1,11 @@
 import React from 'react';
-import showdown from 'showdown';
 
 import Editor from '../components/Editor';
 import Preview from "../components/Preview";
+import Menu from '../components/navigation_menu/Menu';
+import MobileButton from '../components/navigation_menu/MobileButton';
 
 import './App.css';
-
-showdown.setOption('simpleLineBreaks', true);
-
-const converter = new showdown.Converter()
 
 class App extends React.Component {
 
@@ -16,13 +13,22 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      docList: [
+        {
+          id: 'abcdefg',
+          name: 'doc perron',
+          updatedAt: '2019-08-16 00:04:00',
+        },
+      ],
       content: '',
     };
   }
 
   componentDidMount() {
-    var elems = document.querySelectorAll('.sidenav');
+    const elems = document.querySelectorAll('.sidenav');
     window.M.Sidenav.init(elems, {});
+
+    // TODO: make axios call to get list
   }
 
   onChange = (content) => {
@@ -31,46 +37,26 @@ class App extends React.Component {
     });
   };
 
+  onMenuElementClicked = (itemId) => {
+    // TODO: make axios call to get one element
+  };
+
   render() {
     return (
       <div>
-
-        <ul id="slide-out" className="sidenav">
-          <li>
-            <a href="#!">
-              <b className="title">Title</b> - 3 day ago
-            </a>
-          </li>
-        </ul>
-
+        <Menu items={ this.state.docList } onElementClicked={ this.onMenuElementClicked } mobile/>
         <div className="row">
-
           <div className="col l2 hide-on-med-and-down">
-
-            <div className="collection">
-              <a href="#!" className="collection-item">
-                <b className="title">Title</b>
-                <p className="date">
-                  3 day ago
-                </p>
-              </a>
-            </div>
-
-          </div>
-
-          <div className="col m6 l5">
-            <a href="#" data-target="slide-out" className="sidenav-trigger hide-on-large-only">
-              <i className="material-icons">menu</i>
-            </a>
-
-            <Editor onChange={ this.onChange }/>
+            <Menu items={ this.state.docList } onElementClicked={ this.onMenuElementClicked }/>
           </div>
           <div className="col m6 l5">
-            <Preview content={this.state.content}/>
+            <MobileButton/>
+            <Editor content={ this.state.content } onChange={ this.onChange }/>
+          </div>
+          <div className="col m6 l5">
+            <Preview content={ this.state.content }/>
           </div>
         </div>
-
-
       </div>
     );
   }

@@ -7,13 +7,14 @@ class Editor extends React.Component {
 
   render() {
     return (
-      <textarea className="editor" onChange={ this.onChange }/>
+      <textarea value={ this.props.content } className="editor" onChange={ this.onChange }/>
     );
   }
 }
 
 Editor.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  content: PropTypes.string.isRequired,
 };
 
 export default Editor;

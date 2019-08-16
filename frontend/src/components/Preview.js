@@ -1,6 +1,6 @@
 import React from 'react';
-import showdown from 'showdown';
 import PropTypes from "prop-types";
+import showdown from 'showdown';
 
 showdown.setOption('simpleLineBreaks', true);
 
@@ -16,7 +16,7 @@ class Preview extends React.Component {
 }
 
 Preview.propTypes = {
-  content: PropTypes.string.isRequired
+  content: PropTypes.string.isRequired,
 };
 
 export default Preview;
