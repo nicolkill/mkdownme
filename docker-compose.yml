@@ -1,0 +1,34 @@
+version: "3"
+services:
+  app:
+    image: nicolkill/mkdownme:latest
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - mongo
+    ports:
+      - 5000:5000
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+
+      # Mongodb configuration
+      MONGODB_HOST: mongo:27017
+      MONGODB_OPTIONS: authSource=admin
+      MONGODB_DATABASE: mkdownme
+      MONGODB_USER: mkdownme
+      MONGODB_PASSWORD: mkdownme
+
+      # CORS configuration
+      ACCESS_CONTROL_ALLOW_ORIGIN: http://localhost:3000
+      ACCESS_CONTROL_ALLOW_CREDENTIALS: 'true'
+      ACCESS_CONTROL_EXPOSE_HEADERS: Set-Cookie
+      ACCESS_CONTROL_ALLOW_HEADERS: Origin, X-Requested-With, Content-Type, Accept, X-Pailot-Auth
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: mkdownme
+      MONGO_INITDB_ROOT_USERNAME: mkdownme
+      MONGO_INITDB_ROOT_PASSWORD: mkdownme

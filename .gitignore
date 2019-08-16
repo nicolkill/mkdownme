@@ -1,0 +1,4 @@
+/.idea
+docker-compose.override.yml
+*/node_modules
+.DS_store
