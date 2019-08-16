@@ -22,10 +22,6 @@ class App extends React.Component {
   getAllDocuments = async () => {
     const docList = (await BackendApi.getAll()).data;
 
-    if (docList.length === 0) {
-      const selectedDoc = (await BackendApi.create()).data;
-      docList.push(selectedDoc);
-    }
     this.setState({
       docList
     });
@@ -77,6 +73,17 @@ class App extends React.Component {
     });
   };
 
+  onDeleteClicked = async () => {
+    await BackendApi.delete(this.state.selectedDoc._id);
+
+    const docList = this.state.docList;
+
+    this.setState({
+      selectedDoc: undefined,
+      docList: docList.filter(i => i._id !== this.state.selectedDoc._id)
+    });
+  };
+
   render() {
     return (
       <div>
@@ -91,7 +98,7 @@ class App extends React.Component {
             <Editor content={ this.state.selectedDoc.content } onChange={ this.onChange } onFinishTyping={this.onFinishTyping}/>}
           </div>
           <div className="col m6 l5">
-            { this.state.selectedDoc && <Preview content={ this.state.selectedDoc.content }/> }
+            { this.state.selectedDoc && <Preview onDeleteClicked={ this.onDeleteClicked } content={ this.state.selectedDoc.content }/> }
           </div>
         </div>
       </div>

@@ -39,6 +39,13 @@ class BackendApi {
     });
   }
 
+  static delete(id) {
+    return instance.request({
+      method: 'DELETE',
+      url: `/docs/${id}`,
+    });
+  }
+
 }
 
 export default BackendApi;

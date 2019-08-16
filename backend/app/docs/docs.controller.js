@@ -1,5 +1,7 @@
 const Docs = require('mongoose').model('Docs');
 
+const errors = require('../../config/errors');
+
 const {
   NotFoundError,
 } = require('../../config/errors');
@@ -47,7 +49,17 @@ const update = async (req, res) => {
   if (!doc) {
     throw new NotFoundError();
   }
-  res.json(doc)
+  res.json(doc);
+};
+
+const remove = async (req, res) => {
+  const doc = await Docs.findByIdAndRemove(req.params.id);
+
+  if (!doc) {
+    throw new errors.Conflict();
+  }
+
+  res.noContent();
 };
 
 module.exports = {
@@ -55,4 +67,5 @@ module.exports = {
   getAll,
   create,
   update,
+  remove,
 };

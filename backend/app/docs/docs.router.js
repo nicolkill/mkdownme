@@ -5,4 +5,5 @@ module.exports = (router) => {
   router.post('/docs', docs.create);
   router.get('/docs/:id', docs.get);
   router.put('/docs/:id', docs.update);
+  router.delete('/docs/:id', docs.remove);
 };
