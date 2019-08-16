@@ -6,9 +6,6 @@ const {
 
 const getAll = async (req, res) => {
   const docs = await Docs.find({});
-  if (!docs || docs.length === 0) {
-    throw new NotFoundError();
-  }
   res.json(docs);
 };
 

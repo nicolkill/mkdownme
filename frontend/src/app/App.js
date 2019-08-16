@@ -1,5 +1,7 @@
 import React from 'react';
 
+import BackendApi from '../data_source/BackendApi';
+
 import Editor from '../components/Editor';
 import Preview from "../components/Preview";
 import Menu from '../components/navigation_menu/Menu';
@@ -13,22 +15,22 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      docList: [
-        {
-          id: 'abcdefg',
-          name: 'doc perron',
-          updatedAt: '2019-08-16 00:04:00',
-        },
-      ],
+      docList: [],
       content: '',
     };
+  }
+
+  async getAllDocuments() {
+    const docList = await BackendApi.getAll();
+
+    this.setState({
+      docList: docList.data
+    });
   }
 
   componentDidMount() {
     const elems = document.querySelectorAll('.sidenav');
     window.M.Sidenav.init(elems, {});
-
-    // TODO: make axios call to get list
   }
 
   onChange = (content) => {
@@ -37,8 +39,16 @@ class App extends React.Component {
     });
   };
 
-  onMenuElementClicked = (itemId) => {
-    // TODO: make axios call to get one element
+  onMenuElementClicked = async (itemId) => {
+    if (itemId === 'new_doc') {
+      // TODO: create document on backend
+      this.getAllDocuments();
+    } else {
+      const doc = await BackendApi.getOne(itemId);
+      this.setState({
+        content: doc.content,
+      });
+    }
   };
 
   render() {

@@ -8,10 +8,9 @@ moment.locale(locale);
 const timezone = moment().format("Z");
 
 class Menu extends React.Component {
-
+d
   handleClick = (itemId, event) => {
     event.preventDefault();
-
     this.props.onElementClicked(itemId);
   };
 
@@ -19,6 +18,14 @@ class Menu extends React.Component {
     if (this.props.mobile) {
       return (
         <ul id="slide-out" className="sidenav">
+          <li>
+            <b className="title">MKDOWNME</b>
+          </li>
+          <li>
+            <a href="#!" onClick={ this.handleClick.bind(this, 'new_doc') }>
+              <b className="title">Crear nuevo</b>
+            </a>
+          </li>
           { this.props.items.map((item, i) => (
             <li key={i}>
               <a href="#!" onClick={ this.handleClick.bind(this, item.id) }>
@@ -32,6 +39,12 @@ class Menu extends React.Component {
 
     return (
       <div className="collection">
+        <div className="collection-item">
+          <b className="title">MKDOWNME</b>
+        </div>
+        <a href="#!" className="collection-item" onClick={ this.handleClick.bind(this, 'new_doc') }>
+          <b className="title">Crear nuevo</b>
+        </a>
         { this.props.items.map((item, i) => (
           <a href="#!" className="collection-item" key={i} onClick={ this.handleClick.bind(this, item.id) }>
             <b className="title">{ item.name }</b>
