@@ -17,7 +17,7 @@ class Preview extends React.Component {
   render() {
     return (
       <div className="result">
-        <a href="!#" onClick={ this.onDeleteClicked }>Delete</a>
+        { this.props.showDelete && <a href="!#" onClick={ this.onDeleteClicked }>Delete</a> }
         <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.props.content) }} />
       </div>
     );
@@ -25,6 +25,7 @@ class Preview extends React.Component {
 }
 
 Preview.propTypes = {
+  showDelete: PropTypes.bool,
   content: PropTypes.string.isRequired,
   onDeleteClicked: PropTypes.func.isRequired,
 };

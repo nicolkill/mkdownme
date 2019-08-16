@@ -38,7 +38,6 @@ const update = async (req, res) => {
     .replace(/\*/g, '')
     .replace(/_/g, '')
     .replace(/-/g, '')
-    .substring(0, 8)
     .trim();
 
   const doc = await Docs.findByIdAndUpdate(

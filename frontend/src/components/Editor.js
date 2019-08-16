@@ -10,6 +10,7 @@ class Editor extends React.Component {
   onChange = (event) => this.props.onChange(event.target.value);
 
   onKeyDown = () => {
+    this.props.onStartTyping();
     clearTimeout(this.state.timer);
   };
 
@@ -34,6 +35,7 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
+  onStartTyping: PropTypes.func.isRequired,
   onFinishTyping: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   content: PropTypes.string.isRequired,

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import moment from 'moment';
+import { Link } from "react-router-dom";
 
 const locale = window.navigator.userLanguage || window.navigator.language;
 moment.locale(locale);
@@ -8,10 +9,15 @@ moment.locale(locale);
 const timezone = moment().format("Z");
 
 class Menu extends React.Component {
-d
-  handleClick = (itemId, event) => {
+
+  componentDidMount() {
+    const elems = document.querySelectorAll('.sidenav');
+    window.M.Sidenav.init(elems, {});
+  }
+
+  handleNewDocClick = (event) => {
     event.preventDefault();
-    this.props.onElementClicked(itemId);
+    this.props.handleNewDocClick();
   };
 
   render() {
@@ -22,15 +28,15 @@ d
             <b className="title">MKDOWNME</b>
           </li>
           <li>
-            <a href="#!" onClick={ this.handleClick.bind(this, 'new_doc') }>
+            <a href="#!" onClick={ this.handleNewDocClick }>
               <b className="title">Crear nuevo</b>
             </a>
           </li>
           { this.props.items.map((item, i) => (
             <li key={i}>
-              <a href="#!" onClick={ this.handleClick.bind(this, item._id) }>
-                <b className="title">{ item.name }</b> - { moment.utc(item.updatedAt).utcOffset(timezone).fromNow() }
-              </a>
+              <Link to={`/doc/${item._id}`}>
+                <b className="title truncate">{ item.name }</b> - { moment.utc(item.updatedAt).utcOffset(timezone).fromNow() }
+              </Link>
             </li>
           )) }
         </ul>
@@ -42,16 +48,16 @@ d
         <div className="collection-item">
           <b className="title">MKDOWNME</b>
         </div>
-        <a href="#!" className="collection-item" onClick={ this.handleClick.bind(this, 'new_doc') }>
+        <a href="#!" className="collection-item" onClick={ this.handleNewDocClick }>
           <b className="title">Crear nuevo</b>
         </a>
         { this.props.items.map((item, i) => (
-          <a href="#!" className="collection-item" key={i} onClick={ this.handleClick.bind(this, item._id) }>
-            <b className="title">{ item.name }</b>
+          <Link to={`/doc/${item._id}`} className="collection-item" key={i}>
+            <b className="title truncate">{ item.name }</b>
             <p className="date">
               { moment(item.updatedAt).utcOffset(timezone).fromNow() }
             </p>
-          </a>
+          </Link>
         )) }
       </div>
     );
@@ -60,7 +66,7 @@ d
 
 Menu.propTypes = {
   mobile: PropTypes.bool,
-  onElementClicked: PropTypes.func.isRequired,
+  handleNewDocClick: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
