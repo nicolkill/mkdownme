@@ -1,0 +1,25 @@
+.col {
+    padding: unset !important;
+}
+
+.collection {
+    margin: unset;
+}
+
+b.title {
+    font-size: 1.25rem;
+}
+p.date {
+    font-size: 0.75rem;
+    margin: unset;
+}
+.editor, .result {
+    height: 100vh;
+    resize: none;
+}
+.editor {
+    border: 1px solid black;
+    border-bottom: unset;
+    border-top: unset;
+    white-space: pre-wrap;
+}
