@@ -1,6 +1,9 @@
 import React from 'react';
 import showdown from 'showdown';
 
+import Editor from '../components/Editor';
+import Preview from "../components/Preview";
+
 import './App.css';
 
 showdown.setOption('simpleLineBreaks', true);
@@ -22,9 +25,9 @@ class App extends React.Component {
     window.M.Sidenav.init(elems, {});
   }
 
-  onChange = (event) => {
+  onChange = (content) => {
     this.setState({
-      content: event.target.value,
+      content,
     });
   };
 
@@ -43,6 +46,7 @@ class App extends React.Component {
         <div className="row">
 
           <div className="col l2 hide-on-med-and-down">
+
             <div className="collection">
               <a href="#!" className="collection-item">
                 <b className="title">Title</b>
@@ -51,6 +55,7 @@ class App extends React.Component {
                 </p>
               </a>
             </div>
+
           </div>
 
           <div className="col m6 l5">
@@ -58,9 +63,11 @@ class App extends React.Component {
               <i className="material-icons">menu</i>
             </a>
 
-            <textarea className="editor" onChange={ this.onChange } value={ this.state.content }/>
+            <Editor onChange={ this.onChange }/>
           </div>
-          <div className="col m6 l5 result" dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.content) }}/>
+          <div className="col m6 l5">
+            <Preview content={this.state.content}/>
+          </div>
         </div>
 
 
