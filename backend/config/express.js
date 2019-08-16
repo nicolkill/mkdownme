@@ -80,6 +80,8 @@ module.exports = function () {
 
   const router = Router();
 
+  require('../app/docs/docs.router')(router);
+
   router.route('*').get((req, res) => {
     res.status(404);
     res.send();

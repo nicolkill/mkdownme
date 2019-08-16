@@ -15,5 +15,7 @@ module.exports = () => {
     useNewUrlParser: true,
   });
 
+  require('../app/docs/docs.model');
+
   return connection;
 };
