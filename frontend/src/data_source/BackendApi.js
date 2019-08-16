@@ -21,6 +21,13 @@ class BackendApi {
     });
   }
 
+  static create() {
+    return instance.request({
+      url: '/docs',
+      method: 'post',
+    });
+  }
+
 }
 
 export default BackendApi;

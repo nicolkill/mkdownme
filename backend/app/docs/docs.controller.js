@@ -19,7 +19,17 @@ const get = async (req, res) => {
   res.json(doc);
 };
 
+const create = async (req, res) => {
+  const newDoc = new Docs({
+    name: '',
+    content: '',
+  });
+  const doc = await newDoc.save();
+  res.json(doc)
+};
+
 module.exports = {
-  getAll,
   get,
+  getAll,
+  create,
 };

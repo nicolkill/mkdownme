@@ -16,37 +16,52 @@ class App extends React.Component {
 
     this.state = {
       docList: [],
-      content: '',
+      selectedDoc: {
+        content: '',
+      },
     };
   }
 
-  async getAllDocuments() {
-    const docList = await BackendApi.getAll();
+  getAllDocuments = async () => {
+    const docList = (await BackendApi.getAll()).data;
 
+    if (docList.length === 0) {
+      const selectedDoc = (await BackendApi.create()).data;
+      docList.push(selectedDoc);
+    }
     this.setState({
-      docList: docList.data
+      docList
     });
-  }
+  };
+
+  createEmptyDoc = async () => {
+    const selectedDoc = (await BackendApi.create()).data;
+    this.setState({
+      selectedDoc,
+    });
+    this.getAllDocuments();
+  };
 
   componentDidMount() {
     const elems = document.querySelectorAll('.sidenav');
     window.M.Sidenav.init(elems, {});
+
+    this.getAllDocuments();
   }
 
   onChange = (content) => {
     this.setState({
-      content,
+      selectedDoc: { content },
     });
   };
 
   onMenuElementClicked = async (itemId) => {
     if (itemId === 'new_doc') {
-      // TODO: create document on backend
-      this.getAllDocuments();
+      this.createEmptyDoc();
     } else {
-      const doc = await BackendApi.getOne(itemId);
+      const selectedDoc = (await BackendApi.getOne(itemId)).data;
       this.setState({
-        content: doc.content,
+        selectedDoc,
       });
     }
   };
@@ -61,10 +76,10 @@ class App extends React.Component {
           </div>
           <div className="col m6 l5">
             <MobileButton/>
-            <Editor content={ this.state.content } onChange={ this.onChange }/>
+            <Editor content={ this.state.selectedDoc.content } onChange={ this.onChange }/>
           </div>
           <div className="col m6 l5">
-            <Preview content={ this.state.content }/>
+            <Preview content={ this.state.selectedDoc.content }/>
           </div>
         </div>
       </div>
